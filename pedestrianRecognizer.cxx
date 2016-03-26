@@ -20,12 +20,14 @@ PedestrianRecognizer::PedestrianRecognizer() {}
 
 PedestrianRecognizer::PedestrianRecognizer(const Mat _img) : img(_img) {
     imgLBP = Mat::zeros( img.size().height, img.size().width, CV_8U );
-
-    calculate();
+    createHistogram();
 }
 
 uchar PedestrianRecognizer::lbp(int x, int y) {
     uchar c = 0;
+    if(x == 0 || y == 0 || x == w_with-1 || y == w_height-1)
+        return c;
+
     uchar curr = img(x, y);
     for(int k = 0; k < 8; k++) {
         if( img(x+xs[k], y+ys[k]) >=  curr) {
@@ -35,14 +37,34 @@ uchar PedestrianRecognizer::lbp(int x, int y) {
     return c;
 }
 
-void PedestrianRecognizer::calculate() {
+void PedestrianRecognizer::createHistogram() {
+    descriptor[0] = 1;
+    int curr = 1;
+    for(int i = 0; i < w_height-8; i += 8) {
+        for(int j = 0; j < w_with-8; j += 8) {
+            calculateHistogram(i, i+15, j, j+15, descriptor+curr);
+            curr += 59;
+        }
+    }
+
+    std::cout << "termine size " << curr << std::endl;
+
+}
+
+void PedestrianRecognizer::calculateHistogram(int x1, int x2, int y1, int y2,
+                                         double* histNormalized) {
     int hist[59];
-    memset(hist, sizeof(hist), 0);
-    for (int i = 1; i < img.size().height-1; i++) {
-        for (int j = 1; j < img.size().width-1; j++) {
+    memset(hist, 0, sizeof(hist));
+    int total = 0;
+    for (int i = x1; i < x2; i++) {
+        for (int j = y1; j < y2; j++) {
             imgLBP(i, j) = lbp(i, j);
             uchar uv = lbp(i,j);
             hist[ PedestrianRecognizer::uniform[uv] ] ++;
+            total++;
         }
+    }
+    for(int i = 0; i < 59; i++){
+        histNormalized[i] = (double)((double)hist[i] / (double)total);
     }
 }
