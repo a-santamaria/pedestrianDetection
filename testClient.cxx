@@ -27,7 +27,7 @@ int main(int argc, char** argv ) {
     // Create a window for display img.
     namedWindow( "Display window", WINDOW_AUTOSIZE );
     imshow( "Display window", img );
-    imshow( "Display window", lbp.imgLBP );
+    imshow( "Display window", pedestrianModel.imgLBP );
     waitKey(0);
 
 

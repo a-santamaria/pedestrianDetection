@@ -1,4 +1,4 @@
-#include "PedestrianRecognizer.h"
+#include "pedestrianRecognizer.h"
 
 // hardcoded 8-neighbour case
 uchar PedestrianRecognizer::uniform[256] = {
