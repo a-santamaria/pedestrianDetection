@@ -1,5 +1,7 @@
-#include <stdio.h>
+#include <cstdio>
 #include <opencv2/opencv.hpp>
+
+#include "pedestrianRecognizer.h"
 
 using namespace cv;
 
@@ -20,10 +22,17 @@ int main(int argc, char** argv ) {
         return -1;
     }
 
+    PedestrianRecognizer pedestrianModel(img);
+
     // Create a window for display img.
     namedWindow( "Display window", WINDOW_AUTOSIZE );
     imshow( "Display window", img );
+    imshow( "Display window", lbp.imgLBP );
     waitKey(0);
+
+
+
+
 
     /*
     Mat dst;
