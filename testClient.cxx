@@ -1,7 +1,7 @@
 #include <cstdio>
 #include <opencv2/opencv.hpp>
 
-#include "pedestrianRecognizer.h"
+#include "descriptorLBPH.h"
 
 using namespace cv;
 
@@ -22,12 +22,12 @@ int main(int argc, char** argv ) {
         return -1;
     }
 
-    PedestrianRecognizer pedestrianModel(img);
+    DescriptorLBPH descriptor(img);
 
     // Create a window for display img.
     namedWindow( "Display window", WINDOW_AUTOSIZE );
-    imshow( "Display window", img );
-    imshow( "Display window", pedestrianModel.imgLBP );
+    //imshow( "Display window", img );
+    imshow( "Display window", descriptor.imgLBP );
     waitKey(0);
 
 
