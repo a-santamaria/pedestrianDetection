@@ -18,7 +18,7 @@ uchar DescriptorLBPH::uniform[256] = {
 
 DescriptorLBPH::DescriptorLBPH() {}
 
-DescriptorLBPH::DescriptorLBPH(const Mat _img) : img(_img) {
+DescriptorLBPH::DescriptorLBPH(const Mat& _img) : img(_img) {
     imgLBP = Mat::zeros( img.size().height, img.size().width, CV_8U );
     createHistogram();
 }
@@ -67,4 +67,8 @@ void DescriptorLBPH::calculateHistogram(int x1, int x2, int y1, int y2,
     for(int i = 0; i < 59; i++){
         histNormalized[i] = (double)((double)hist[i] / (double)total);
     }
+}
+
+double DescriptorLBPH::getDescriptorAt(int i) {
+    return descriptor[i];
 }

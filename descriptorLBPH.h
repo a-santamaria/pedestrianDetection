@@ -1,5 +1,5 @@
-#ifndef LOCAL_BIANRY_PATTERN
-#define LOCAL_BIANRY_PATTERN
+#ifndef DESCRIPTOR_LBPH_H
+#define DESCRIPTOR_LBPH_H
 
 #include <opencv2/opencv.hpp>
 
@@ -28,11 +28,12 @@ public:
     //TODO este no se necesita
     Mat_<uchar> imgLBP;
     DescriptorLBPH();
-    DescriptorLBPH(const Mat _img);
+    DescriptorLBPH(const Mat& _img);
     uchar lbp(int x, int y);
     void createHistogram();
     void calculateHistogram(int x1, int x2, int y1, int y2,
                                  double* histNormalized);
+    double getDescriptorAt(int i);
 };
 
 #endif
