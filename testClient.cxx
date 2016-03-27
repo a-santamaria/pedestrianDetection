@@ -15,7 +15,7 @@ int main(int argc, char** argv ) {
 
     Mat img;
     //read in gray scale
-
+    std::cout << argv[1] << std::endl;
     img = imread(argv[1], 0);
 
     if ( !img.data ) {

@@ -20,6 +20,7 @@ DescriptorLBPH::DescriptorLBPH() {}
 
 DescriptorLBPH::DescriptorLBPH(const Mat& _img) : img(_img) {
     imgLBP = Mat::zeros( img.size().height, img.size().width, CV_8U );
+    //TODO throw exception if height != 128 || width != 64
     createHistogram();
 }
 
@@ -46,9 +47,7 @@ void DescriptorLBPH::createHistogram() {
             curr += 59;
         }
     }
-
     std::cout << "termine size " << curr << std::endl;
-
 }
 
 void DescriptorLBPH::calculateHistogram(int x1, int x2, int y1, int y2,

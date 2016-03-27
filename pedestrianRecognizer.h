@@ -1,5 +1,5 @@
-#ifndef FACE_RECOGNIZER_H
-#define FACE_RECOGNIZER_H
+#ifndef PEDESTRIAN_RECOGNIZER_H
+#define PEDESTRIAN_RECOGNIZER_H
 
 #include <opencv2/opencv.hpp>
 #include "descriptorLBPH.h"
@@ -17,37 +17,37 @@ private:
     const int modelSize = 6196;
     int treshold;
     /** gradient descent alpha (lerning ratio) **/
-    //TODO cross validation
-    int alpha_GD = 0.05;
-public:
-    PedestrianRecognizer();
+    int alpha_GD = 0.05; //TODO cross validation
 
-    /**
-     * logistic regression lerning algo
-    **/
-    void train(std::vector<Mat> images, std::vector<int> lables);
     /**
      * one step of gradiant descent to minimize the cost of the model
     **/
     void gradiantDescentStep(std::vector<DescriptorLBPH>& descriptors,
-                                std::vector<int>& lables);
+                                std::vector<int>& labels);
     /**
      * total cost of current model
     **/
     double totalLoss(std::vector<DescriptorLBPH>& descriptors,
-                        std::vector<int>& lables);
+                        std::vector<int>& labels);
     /**
      * cost of especific descriptor estimated by est
      * est: [0..1]
-     * lable: {0,1}
+     * label: {0,1}
     **/
-    double loss(double est, int lable);
+    double loss(double est, int label);
     /**
      * probability that descriptor is a pedestrian
      * return [0..1]
     **/
     double estimateDescriptor(DescriptorLBPH & descriptor);
 
+public:
+    PedestrianRecognizer();
+
+    /**
+     * logistic regression lerning algo
+    **/
+    void train(std::vector<Mat>& images, std::vector<int>& labels);
 };
 
 #endif

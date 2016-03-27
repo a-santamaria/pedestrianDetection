@@ -6,8 +6,8 @@ PedestrianRecognizer::PedestrianRecognizer() {
     //TODO search for file of model if any
 }
 
-void PedestrianRecognizer::train(std::vector<Mat> images,
-                                    std::vector<int> lables) {
+void PedestrianRecognizer::train(std::vector<Mat>& images,
+                                    std::vector<int>& labels) {
     //create descriptros
     std::vector<DescriptorLBPH> descriptors;
     for (int i = 0; i < images.size(); i++) {
@@ -15,22 +15,22 @@ void PedestrianRecognizer::train(std::vector<Mat> images,
     }
 
     double prevCost = INF;
-    double cost = totalLoss(descriptors, lables);
+    double cost = totalLoss(descriptors, labels);
     while ( abs(prevCost - cost) >  EPS) {
         prevCost = cost;
-        gradiantDescentStep(descriptors, lables);
-        cost = totalLoss(descriptors, lables);
+        gradiantDescentStep(descriptors, labels);
+        cost = totalLoss(descriptors, labels);
     }
 }
 
 void PedestrianRecognizer::gradiantDescentStep(
                                 std::vector<DescriptorLBPH>& descriptors,
-                                std::vector<int>& lables) {
+                                std::vector<int>& labels) {
     for (int i = 0; i < modelSize; i++) {
         double delta_i = 0;
         for (int j = 1; j < descriptors.size(); j++) {
             double est = estimateDescriptor(descriptors[j]);
-            delta_i += (est - lables[j]) * descriptors[j].getDescriptorAt(j);
+            delta_i += (est - labels[j]) * descriptors[j].getDescriptorAt(j);
         }
         delta_i = (delta_i / (double)descriptors.size());
         model[i] = model[i] - ( alpha_GD * delta_i);
@@ -39,18 +39,18 @@ void PedestrianRecognizer::gradiantDescentStep(
 
 double PedestrianRecognizer::totalLoss(
                                 std::vector<DescriptorLBPH>& descriptors,
-                                    std::vector<int>& lables) {
+                                    std::vector<int>& labels) {
     double cost = 0;
     for (int i = 0; i < descriptors.size(); i++) {
         double est = estimateDescriptor(descriptors[i]);
-        cost += loss(est, lables[i]);
+        cost += loss(est, labels[i]);
     }
     return -( cost / (double)descriptors.size() );
 }
 
-double PedestrianRecognizer::loss(double est, int lable) {
-    //lable: 0 | 1
-    return -( ( lable * log(est) ) + ( (1-lable) * log(1-est) ) );
+double PedestrianRecognizer::loss(double est, int label) {
+    //label: 0 | 1
+    return -( ( label * log(est) ) + ( (1-label) * log(1-est) ) );
 }
 
 double PedestrianRecognizer::estimateDescriptor(DescriptorLBPH & descriptor) {
