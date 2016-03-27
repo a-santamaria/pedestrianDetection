@@ -1,5 +1,7 @@
-#include <stdio.h>
+#include <cstdio>
 #include <opencv2/opencv.hpp>
+
+#include "descriptorLBPH.h"
 
 using namespace cv;
 
@@ -12,6 +14,7 @@ int main(int argc, char** argv ) {
 
     Mat img;
     //read in gray scale
+
     img = imread(argv[1], 0);
 
     if ( !img.data ) {
@@ -19,10 +22,17 @@ int main(int argc, char** argv ) {
         return -1;
     }
 
-    namedWindow( "Display window", WINDOW_AUTOSIZE );// Create a window for display.
-    imshow( "Display window", img );                   // Show our image inside it.
+    DescriptorLBPH descriptor(img);
 
-    waitKey(0);                                          // Wait for a keystroke in the window
+    // Create a window for display img.
+    namedWindow( "Display window", WINDOW_AUTOSIZE );
+    //imshow( "Display window", img );
+    imshow( "Display window", descriptor.imgLBP );
+    waitKey(0);
+
+
+
+
 
     /*
     Mat dst;
