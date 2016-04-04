@@ -13,3 +13,6 @@ target_link_libraries( test ${OpenCV_LIBS} )
 add_executable( train trainingClient.cxx descriptorLBPH.cxx
                         pedestrianRecognizer.cxx )
 target_link_libraries( train ${OpenCV_LIBS} )
+
+add_executable( createNegative createNegativeCannonical.cxx )
+target_link_libraries( createNegative ${OpenCV_LIBS} )

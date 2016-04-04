@@ -47,7 +47,6 @@ void DescriptorLBPH::createHistogram() {
             curr += 59;
         }
     }
-    std::cout << "termine size " << curr << std::endl;
 }
 
 void DescriptorLBPH::calculateHistogram(int x1, int x2, int y1, int y2,

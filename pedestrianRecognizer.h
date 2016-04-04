@@ -4,9 +4,11 @@
 #include <opencv2/opencv.hpp>
 #include "descriptorLBPH.h"
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 
 #define INF DBL_MAX
-#define EPS 1e-2
+#define EPS 1e-9
 
 using namespace cv;
 
@@ -17,7 +19,7 @@ private:
     const int modelSize = 6196;
     int treshold;
     /** gradient descent alpha (lerning ratio) **/
-    int alpha_GD = 0.05; //TODO cross validation
+    int alpha_GD = 1; //TODO cross validation
 
     /**
      * one step of gradiant descent to minimize the cost of the model
