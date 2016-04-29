@@ -6,6 +6,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <ctime>
+#include <fstream>
 
 #define INF DBL_MAX
 #define EPS 1e-9
@@ -42,6 +43,9 @@ private:
      * return [0..1]
     **/
     double estimateDescriptor(DescriptorLBPH & descriptor);
+
+    void printModelToFile();
+    void readModelFromFile(std::string name);
 
 public:
     PedestrianRecognizer();

@@ -26,6 +26,7 @@ void PedestrianRecognizer::train(std::vector<Mat>& images,
     double cost = totalLoss(descriptors, labels);
     std::cout << "costo inicial " << cost << std::endl;
     while ( fabs(prevCost - cost) >  EPS) {
+        int voy = 0;
         std::cout << "diff " << fabs(prevCost - cost)<< std::endl;
         prevCost = cost;
         gradiantDescentStep(descriptors, labels);
@@ -38,6 +39,7 @@ void PedestrianRecognizer::train(std::vector<Mat>& images,
 void PedestrianRecognizer::gradiantDescentStep(
                                 std::vector<DescriptorLBPH>& descriptors,
                                 std::vector<int>& labels) {
+
     for (int i = 0; i < modelSize; i++) {
         if(i % 100 == 0)
             std::cout << "voy modelo " << i << std::endl;
@@ -56,6 +58,7 @@ void PedestrianRecognizer::gradiantDescentStep(
         double anterior = model[i];
         model[i] = model[i] - ( alpha_GD * delta_i);
     }
+    printModelToFile();
 }
 
 double PedestrianRecognizer::totalLoss(
@@ -81,4 +84,20 @@ double PedestrianRecognizer::estimateDescriptor(DescriptorLBPH & descriptor) {
     }
     double result = 1 / (1 + exp(prediction));
     return result;
+}
+
+void PedestrianRecognizer::printModelToFile() {
+    /** filewriter **/
+    std::ofstream outf( "modelo.bin",  std::ios::out | std::ios::binary);
+    outf.write( (char*)&modelSize, sizeof(int) );
+    outf.write( (char*)model, sizeof(double)*modelSize);
+    outf.close();
+}
+
+void PedestrianRecognizer::readModelFromFile(std::string name) {
+    /** filereader **/
+    std::ifstream in( name,  std::ios::in | std::ios::binary);
+    in.read( (char*)&modelSize, sizeof(int) );
+    in.read( (char*)model, sizeof(double)*modelSize);
+    in.close();
 }
