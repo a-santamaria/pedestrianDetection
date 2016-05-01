@@ -22,6 +22,8 @@ private:
     /** gradient descent alpha (lerning ratio) **/
     int alpha_GD = 1; //TODO cross validation
 
+    string modelFileName;
+
     /**
      * one step of gradiant descent to minimize the cost of the model
     **/
@@ -49,11 +51,15 @@ private:
     **/
     double sigmoid(double x);
 
-    void printModelToFile();
-    void readModelFromFile(std::string name);
+    void writeModelToFile();
+    void readModelFromFile();
+
+    void initModel();
 
 public:
     PedestrianRecognizer();
+
+    PedestrianRecognizer(std::string _modelFileName);
 
     /**
      * logistic regression lerning algo

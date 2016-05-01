@@ -15,11 +15,12 @@ static void read_csv(const std::string& filename, std::vector<Mat>& images,
 
 int main(int argc, char** argv ) {
 
-    if ( argc < 2 ) {
-        std::cerr << "Usage: " << argv[ 0 ] << " csv_file" << std::endl;
+    if ( argc < 3 ) {
+        std::cerr << "Usage: " << argv[ 0 ] << " csv_file" << "modelFile" << std::endl;
         return( -1 );
     }
     std::string fn_csv = std::string(argv[1]);
+    std::string modelFile = std::string(argv[2]);
     std::vector<Mat> images;
     std::vector<int> labels;
 
@@ -31,7 +32,7 @@ int main(int argc, char** argv ) {
         return 1;
     }
     std::cout << "leí " << images.size() << " imagenes" << std::endl;
-    PedestrianRecognizer model;
+    PedestrianRecognizer model(modleFile);
     model.train(images, labels);
 
     return 0;

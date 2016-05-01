@@ -1,8 +1,19 @@
 #include "pedestrianRecognizer.h"
 
 PedestrianRecognizer::PedestrianRecognizer() {
-    srand (time(0));
     treshold = 0.5;
+    initModel();
+}
+
+PedestrianRecognizer::PedestrianRecognizer(std::string _modelFileName) {
+    //TODO read model from file if already created
+    modleFileName = _modelFileName;
+    treshold = 0.5;
+    initModel();
+}
+
+void PedestrianRecognizer::initModel() {
+    srand (time(0));
     for (int i = 0; i < modelSize; i++) {
         if(rand()%2 == 0)
             model[i] = ((double) rand() / (RAND_MAX));
@@ -11,7 +22,6 @@ PedestrianRecognizer::PedestrianRecognizer() {
     }
     std::cout << "al principio" << std::endl;
     std::cout << model[1] << std::endl;
-    //TODO search for file of model if any
 }
 
 void PedestrianRecognizer::train(std::vector<Mat>& images,
@@ -58,7 +68,7 @@ void PedestrianRecognizer::gradiantDescentStep(
         double anterior = model[i];
         model[i] = model[i] - ( alpha_GD * delta_i);
     }
-    printModelToFile();
+    writeModelToFile();
 }
 
 double PedestrianRecognizer::totalLoss(
@@ -86,17 +96,17 @@ double PedestrianRecognizer::estimateDescriptor(DescriptorLBPH & descriptor) {
     return sigmoid(prediction);
 }
 
-void PedestrianRecognizer::printModelToFile() {
+void PedestrianRecognizer::writeModelToFile() {
     /** filewriter **/
-    std::ofstream outf( "modelo.bin",  std::ios::out | std::ios::binary);
+    std::ofstream outf( modelFileName.c_str(),  std::ios::out | std::ios::binary);
     outf.write( (char*)&modelSize, sizeof(int) );
     outf.write( (char*)model, sizeof(double)*modelSize);
     outf.close();
 }
 
-void PedestrianRecognizer::readModelFromFile(std::string name) {
+void PedestrianRecognizer::readModelFromFile() {
     /** filereader **/
-    std::ifstream in( name,  std::ios::in | std::ios::binary);
+    std::ifstream in( modelFileName.c_str(),  std::ios::in | std::ios::binary);
     in.read( (char*)&modelSize, sizeof(int) );
     in.read( (char*)model, sizeof(double)*modelSize);
     in.close();
