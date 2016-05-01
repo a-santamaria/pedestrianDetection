@@ -32,7 +32,7 @@ int main(int argc, char** argv ) {
         return 1;
     }
     std::cout << "leí " << images.size() << " imagenes" << std::endl;
-    PedestrianRecognizer model(modleFile);
+    PedestrianRecognizer model(modelFile);
     model.train(images, labels);
 
     return 0;
