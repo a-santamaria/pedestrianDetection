@@ -83,7 +83,7 @@ double PedestrianRecognizer::estimateDescriptor(DescriptorLBPH & descriptor) {
     for (int i = 0; i < modelSize; i++) {
         prediction += model[i] * descriptor.getDescriptorAt(i);
     }
-    return sigmoid(result);
+    return sigmoid(prediction);
 }
 
 void PedestrianRecognizer::printModelToFile() {
@@ -104,5 +104,5 @@ void PedestrianRecognizer::readModelFromFile(std::string name) {
 
 double PedestrianRecognizer::sigmoid(double x) {
     double e = 2.718281828;
-    return 1.0 / (1.0 + pow(e, -x));
+    return 1.0 / (1.0 + exp(-x));
 }
