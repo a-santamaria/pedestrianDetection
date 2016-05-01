@@ -4,6 +4,9 @@
 #include <opencv2/opencv.hpp>
 #include "descriptorLBPH.h"
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
+#include <fstream>
 
 #define INF DBL_MAX
 #define EPS 1e-3
@@ -17,7 +20,7 @@ private:
     const int modelSize = 6196;
     int treshold;
     /** gradient descent alpha (lerning ratio) **/
-    int alpha_GD = 0.05; //TODO cross validation
+    int alpha_GD = 1; //TODO cross validation
 
     /**
      * one step of gradiant descent to minimize the cost of the model
@@ -45,6 +48,9 @@ private:
      * ligistic function
     **/
     double sigmoid(double x);
+
+    void printModelToFile();
+    void readModelFromFile(std::string name);
 
 public:
     PedestrianRecognizer();
