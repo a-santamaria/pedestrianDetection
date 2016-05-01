@@ -7,7 +7,7 @@ PedestrianRecognizer::PedestrianRecognizer() {
 
 PedestrianRecognizer::PedestrianRecognizer(std::string _modelFileName) {
     //TODO read model from file if already created
-    modleFileName = _modelFileName;
+    modelFileName = _modelFileName;
     treshold = 0.5;
     initModel();
 }
@@ -81,7 +81,7 @@ double PedestrianRecognizer::totalLoss(
                                 std::vector<double>& descriptorsEst,
                                     std::vector<int>& labels) {
     double cost = 0;
-    for (int i = 0; i < descriptors.size(); i++) {
+    for (int i = 0; i < descriptorsEst.size(); i++) {
         double est = descriptorsEst[i];
         cost += loss(est, labels[i]);
     }
