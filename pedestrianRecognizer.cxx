@@ -36,16 +36,19 @@ void PedestrianRecognizer::train(std::vector<Mat>& images,
     }
 
     double prevCost = INF;
-    double cost = totalLoss(descriptorsEst, labels);
-    std::cout << "costo inicial " << cost << std::endl;
-    while ( fabs(prevCost - cost) >  EPS) {
-        int voy = 0;
-        std::cout << "diff " << fabs(prevCost - cost)<< std::endl;
+    double cost = INF;
+    int iteration = 0;
+    do {
+        prevCost = cost;
+
         prevCost = cost;
         gradiantDescentStep(descriptors, labels, descriptorsEst);
         cost = totalLoss(descriptorsEst, labels);
-        std::cout << "costo " << cost << std::endl;
-    }
+        std::cout << "------- iteration: "<< iteration++;
+        std::cout << " costo: " << cost << std::endl;
+        std::cout << "diff " << fabs(prevCost - cost)<< std::endl;
+    } while ( fabs(prevCost - cost) >  EPS);
+
     std::cout << " sali diff " << fabs(prevCost - cost)<< std::endl;
 }
 
@@ -53,13 +56,13 @@ void PedestrianRecognizer::gradiantDescentStep(
                                 std::vector<DescriptorLBPH>& descriptors,
                                 std::vector<int>& labels,
                                 std::vector<double>& descriptorsEst) {
-    // calculate estimation of descriptors with current model 
+    // calculate estimation of descriptors with current model
     for (int j = 1; j < descriptors.size(); j++) {
         descriptorsEst[j] = estimateDescriptor(descriptors[j]);
     }
 
     for (int i = 0; i < modelSize; i++) {
-        if(i % 100 == 0)
+        if(i % 1000 == 0)
             std::cout << "voy modelo " << i << std::endl;
         double delta_i = 0.0;
         for (int j = 1; j < descriptors.size(); j++) {
