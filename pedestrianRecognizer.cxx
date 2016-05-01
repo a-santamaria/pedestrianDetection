@@ -20,8 +20,6 @@ void PedestrianRecognizer::initModel() {
         else
             model[i] = -((double) rand() / (RAND_MAX));
     }
-    std::cout << "al principio" << std::endl;
-    std::cout << model[1] << std::endl;
 }
 
 void PedestrianRecognizer::train(std::vector<Mat>& images,
@@ -62,20 +60,12 @@ void PedestrianRecognizer::gradiantDescentStep(
     }
 
     for (int i = 0; i < modelSize; i++) {
-        if(i % 1000 == 0)
-            std::cout << "voy modelo " << i << std::endl;
         double delta_i = 0.0;
         for (int j = 1; j < descriptors.size(); j++) {
             double est = descriptorsEst[j];
             delta_i += (est - labels[j]) * descriptors[j].getDescriptorAt(j);
         }
-        /*std::cout << "delta antes de dividir" << delta_i;
-        std::cout << " size " << descriptors.size() << std::endl;
-        */
         delta_i = (delta_i / (double)descriptors.size());
-        /*std::cout << "division " << delta_i << std::endl;
-        std::cout << "por alpha " << alpha_GD * delta_i << std::endl;
-        */
         model[i] = model[i] - ( alpha_GD * delta_i);
     }
     writeModelToFile();
