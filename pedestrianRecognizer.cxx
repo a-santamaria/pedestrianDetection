@@ -9,7 +9,10 @@ PedestrianRecognizer::PedestrianRecognizer(std::string _modelFileName) {
     //TODO read model from file if already created
     modelFileName = _modelFileName;
     treshold = 0.5;
-    initModel();
+    if(!readModelFromFile()) {
+        std::cout << "no modle file" << std::endl;
+        initModel();
+    }
 }
 
 void PedestrianRecognizer::initModel() {
@@ -20,6 +23,11 @@ void PedestrianRecognizer::initModel() {
         else
             model[i] = -((double) rand() / (RAND_MAX));
     }
+}
+
+double PedestrianRecognizer::pedestrianProbability(const Mat& img) {
+    DescriptorLBPH descriptor(img);
+    return estimateDescriptor(descriptor);
 }
 
 void PedestrianRecognizer::train(std::vector<Mat>& images,
@@ -104,12 +112,21 @@ void PedestrianRecognizer::writeModelToFile() {
     outf.close();
 }
 
-void PedestrianRecognizer::readModelFromFile() {
+bool PedestrianRecognizer::readModelFromFile() {
     /** filereader **/
     std::ifstream in( modelFileName.c_str(),  std::ios::in | std::ios::binary);
+    if(!in) return false;
     in.read( (char*)&modelSize, sizeof(int) );
     in.read( (char*)model, sizeof(double)*modelSize);
     in.close();
+    // printModel();
+    return true;
+}
+
+void PedestrianRecognizer::printModel() {
+    for (int i = 0; i < modelSize; i++) {
+        std::cout << model[i] << std::endl;
+    }
 }
 
 double PedestrianRecognizer::sigmoid(double x) {

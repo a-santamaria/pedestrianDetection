@@ -18,11 +18,11 @@ private:
     /** model **/
     double model [6196];
     const int modelSize = 6196;
-    int treshold;
+    double treshold;
     /** gradient descent alpha (lerning ratio) **/
-    int alpha_GD = 1; //TODO cross validation
+    double alpha_GD = 1; //TODO cross validation
 
-    string modelFileName;
+    std::string modelFileName;
 
     /**
      * one step of gradiant descent to minimize the cost of the model
@@ -53,7 +53,8 @@ private:
     double sigmoid(double x);
 
     void writeModelToFile();
-    void readModelFromFile();
+    bool readModelFromFile();
+    void printModel();
 
     void initModel();
 
@@ -66,6 +67,8 @@ public:
      * logistic regression lerning algo
     **/
     void train(std::vector<Mat>& images, std::vector<int>& labels);
+
+    double pedestrianProbability(const Mat& img);
 };
 
 #endif
