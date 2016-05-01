@@ -16,7 +16,7 @@ void PedestrianRecognizer::train(std::vector<Mat>& images,
 
     double prevCost = INF;
     double cost = totalLoss(descriptors, labels);
-    while ( abs(prevCost - cost) >  EPS) {
+    while ( abs(prevCost - cost) >  EPS ) {
         prevCost = cost;
         gradiantDescentStep(descriptors, labels);
         cost = totalLoss(descriptors, labels);
@@ -50,7 +50,8 @@ double PedestrianRecognizer::totalLoss(
 
 double PedestrianRecognizer::loss(double est, int label) {
     //label: 0 | 1
-    return -( ( label * log(est) ) + ( (1-label) * log(1-est) ) );
+    return  - ( ( label     * log( sigmoid(est) )   ) +
+                ( (1-label) * log( 1-sigmoid(est) ) ) );
 }
 
 double PedestrianRecognizer::estimateDescriptor(DescriptorLBPH & descriptor) {
@@ -58,4 +59,9 @@ double PedestrianRecognizer::estimateDescriptor(DescriptorLBPH & descriptor) {
     for (int i = 0; i < modelSize; i++) {
         prediction += model[i] * descriptor.getDescriptorAt(i);
     }
+}
+
+double PedestrianRecognizer::sigmoid(double x) {
+    double e = 2.718281828;
+    return 1.0 / (1.0 + pow(e, -x));
 }

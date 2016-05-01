@@ -6,7 +6,7 @@
 #include <cmath>
 
 #define INF DBL_MAX
-#define EPS 1e-2
+#define EPS 1e-3
 
 using namespace cv;
 
@@ -40,6 +40,11 @@ private:
      * return [0..1]
     **/
     double estimateDescriptor(DescriptorLBPH & descriptor);
+
+    /**
+     * ligistic function
+    **/
+    double sigmoid(double x);
 
 public:
     PedestrianRecognizer();
