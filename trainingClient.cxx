@@ -16,7 +16,7 @@ static void read_csv(const std::string& filename, std::vector<Mat>& images,
 int main(int argc, char** argv ) {
 
     if ( argc < 3 ) {
-        std::cerr << "Usage: " << argv[ 0 ] << " csv_file" << "modelFile" << std::endl;
+        std::cerr << "Usage: " << argv[ 0 ] << " csv_file modelFile" << std::endl;
         return( -1 );
     }
     std::string fn_csv = std::string(argv[1]);

@@ -31,7 +31,8 @@ void PedestrianRecognizer::train(std::vector<Mat>& images,
     std::vector<double> descriptorsEst;
     for (int i = 0; i < images.size(); i++) {
         descriptors.push_back( DescriptorLBPH(images[i]) );
-        descriptorsEst.push_back(0.0);
+        int last = descriptors.size()-1;
+        descriptorsEst.push_back( estimateDescriptor(descriptors[last]) );
     }
 
     double prevCost = INF;
@@ -52,9 +53,9 @@ void PedestrianRecognizer::gradiantDescentStep(
                                 std::vector<DescriptorLBPH>& descriptors,
                                 std::vector<int>& labels,
                                 std::vector<double>& descriptorsEst) {
+    // calculate estimation of descriptors with current model 
     for (int j = 1; j < descriptors.size(); j++) {
-        double est = estimateDescriptor(descriptors[j]);
-        descriptorsEst[j] = est;
+        descriptorsEst[j] = estimateDescriptor(descriptors[j]);
     }
 
     for (int i = 0; i < modelSize; i++) {
