@@ -28,11 +28,12 @@ private:
      * one step of gradiant descent to minimize the cost of the model
     **/
     void gradiantDescentStep(std::vector<DescriptorLBPH>& descriptors,
-                                std::vector<int>& labels);
+                             std::vector<int>& labels,
+                             std::vector<double>& descriptorsEst);
     /**
      * total cost of current model
     **/
-    double totalLoss(std::vector<DescriptorLBPH>& descriptors,
+    double totalLoss(std::vector<double>& descriptorsEst,
                         std::vector<int>& labels);
     /**
      * cost of especific descriptor estimated by est
