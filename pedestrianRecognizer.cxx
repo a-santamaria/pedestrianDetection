@@ -1,14 +1,14 @@
 #include "pedestrianRecognizer.h"
 
 PedestrianRecognizer::PedestrianRecognizer() {
-    treshold = 0.5;
+    threshold = 0.5;
     initModel();
 }
 
 PedestrianRecognizer::PedestrianRecognizer(std::string _modelFileName) {
     //TODO read model from file if already created
     modelFileName = _modelFileName;
-    treshold = 0.5;
+    threshold = 0.5;
     if(!readModelFromFile()) {
         std::cout << "no modle file" << std::endl;
         initModel();

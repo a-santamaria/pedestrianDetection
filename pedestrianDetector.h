@@ -14,7 +14,7 @@ private:
     int dx = 32;
     int dy = 64;
     double threshold = 0.5;
-
+    std::vector< std::pair<Point2d, Point2d> > boxes;
 public:
     PedestrianDetector();
     PedestrianDetector(const Mat& _img, std::string _modelFileName);

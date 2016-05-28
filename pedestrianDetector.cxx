@@ -3,8 +3,6 @@
 
 PedestrianDetector::PedestrianDetector()
 {
-    treshold = 0.5;
-    initModel();
 }
 
 PedestrianDetector::PedestrianDetector(const Mat& _img,
@@ -23,8 +21,8 @@ void PedestrianDetector::detect(std::string _modelFileName)
         pyrDown(img, dst, s);
 
 
-        for(int i = 0; i < det.cols-dx; i+=dx) {
-            for(int j = 0; j < det.rows-dy; j+=dy) {
+        for(int i = 0; i < dst.cols-dx; i+=dx) {
+            for(int j = 0; j < dst.rows-dy; j+=dy) {
                 Rect roi(i, j, i+64, j+128);
                 Mat window = img(roi);
                 double prob = pr.pedestrianProbability(window);

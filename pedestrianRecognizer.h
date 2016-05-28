@@ -18,7 +18,7 @@ private:
     /** model **/
     double model [6196];
     const int modelSize = 6196;
-    double treshold;
+    double threshold;
     /** gradient descent alpha (lerning ratio) **/
     double alpha_GD = 1; //TODO cross validation
 

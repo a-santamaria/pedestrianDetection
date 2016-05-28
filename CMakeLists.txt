@@ -18,6 +18,10 @@ add_executable( testWindow testWindow.cxx descriptorLBPH.cxx
                         pedestrianRecognizer.cxx )
 target_link_libraries( testWindow ${OpenCV_LIBS} )
 
+add_executable( testImage testImage.cxx pedestrianDetector.cxx
+                    descriptorLBPH.cxx pedestrianRecognizer.cxx )
+target_link_libraries( testImage ${OpenCV_LIBS} )
+
 
 #add_executable( createNegative createNegativeCannonical.cxx )
 #target_link_libraries( createNegative ${OpenCV_LIBS} )
