@@ -37,7 +37,10 @@ void PedestrianDetector::detect(std::string _modelFileName)
                 double prob = pr.pedestrianProbability(window);
                 if(prob >= threshold) {
                     std::cout << j*(1<<lev)  << std::endl;
-                    //TODO translate with level of pyr
+                    namedWindow( "Display window1", WINDOW_AUTOSIZE );
+                    imshow( "Display window1", window );
+                    std::cout << "prob " << prob << std::endl;
+                    waitKey(0);
                     boxes.push_back(
                         std::make_pair(
                             Point2d( i*(1<<lev)     , j*(1<<lev)       ),
