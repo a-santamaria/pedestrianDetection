@@ -13,7 +13,7 @@ private:
     double pyrHeight = 8;
     int dx = 32;
     int dy = 64;
-    double threshold = 0.5;
+    double threshold = 0.9;
     std::vector< std::pair<Point2d, Point2d> > boxes;
 public:
     PedestrianDetector();

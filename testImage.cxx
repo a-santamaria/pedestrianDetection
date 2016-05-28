@@ -29,6 +29,12 @@ int main(int argc, char** argv ) {
 
     PedestrianDetector pd(img, modelFile);
 
+    std::vector< std::pair<Point2d, Point2d> > vec = pd.getBoxes();
+
+    for(int i = 0; i < vec.size(); i++) {
+        rectangle(img, vec[i].first, vec[i].second, 255);
+    }
+
     // Create a window for display img.
     namedWindow( "Display window", WINDOW_AUTOSIZE );
     imshow( "Display window", img );
