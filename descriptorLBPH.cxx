@@ -56,7 +56,7 @@ void DescriptorLBPH::calculateHistogram(int x1, int x2, int y1, int y2,
     int total = 0;
     for (int i = x1; i < x2; i++) {
         for (int j = y1; j < y2; j++) {
-            imgLBP(i, j) = lbp(i, j);
+            //imgLBP(i, j) = lbp(i, j);
             uchar uv = lbp(i,j);
             hist[ DescriptorLBPH::uniform[uv] ] ++;
             total++;
