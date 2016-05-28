@@ -11,8 +11,8 @@ private:
     /** imput image **/
     const Mat_<uchar> img;
     double pyrHeight = 8;
-    int dx = 32;
-    int dy = 64;
+    int dx = 16;
+    int dy = 16;
     double threshold = 0.9;
     std::vector< std::pair<Point2d, Point2d> > boxes;
 public:

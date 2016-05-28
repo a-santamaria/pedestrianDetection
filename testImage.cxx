@@ -32,7 +32,8 @@ int main(int argc, char** argv ) {
     std::vector< std::pair<Point2d, Point2d> > vec = pd.getBoxes();
 
     for(int i = 0; i < vec.size(); i++) {
-        rectangle(img, vec[i].first, vec[i].second, 255);
+        std::cout << "que " << vec[i].first << ", "<< vec[i].second<< std::endl;
+        rectangle(img, vec[i].first, vec[i].second, 200);
     }
 
     // Create a window for display img.
