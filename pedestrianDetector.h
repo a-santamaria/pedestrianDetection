@@ -3,8 +3,20 @@
 
 #include <opencv2/opencv.hpp>
 #include <vector>
+#include <queue>
+#include <algorithm>
 
 using namespace cv;
+
+struct PreDeteccion
+{
+    double prob;
+    Point2d p, q;
+
+    PreDeteccion();
+    PreDeteccion(double _prob, Point2d _p, Point2d _q);
+    bool operator<(const PreDeteccion& other) const;
+};
 
 class PedestrianDetector {
 private:
@@ -22,6 +34,9 @@ public:
 
 private:
     void detect(std::string _modelFileName);
+    void refinarCandidatos(std::priority_queue<PreDeteccion>& pq);
+    double overlap(std::pair<Point2d, Point2d>& b1,
+                    std::pair<Point2d, Point2d>& b2);
 };
 
 #endif
