@@ -54,7 +54,7 @@ void PedestrianRecognizer::train(std::vector<Mat>& images,
         std::cout << " costo: " << cost << std::endl;
         std::cout << "diff " << fabs(prevCost - cost)<< std::endl;
     } while ( fabs(prevCost - cost) >  EPS);
-
+    writeModelToFile();
     std::cout << " sali diff " << fabs(prevCost - cost)<< std::endl;
 }
 
@@ -76,7 +76,7 @@ void PedestrianRecognizer::gradiantDescentStep(
         delta_i = (delta_i / (double)descriptors.size());
         model[i] = model[i] - ( alpha_GD * delta_i);
     }
-    writeModelToFile();
+    // writeModelToFile();
 }
 
 double PedestrianRecognizer::totalLoss(

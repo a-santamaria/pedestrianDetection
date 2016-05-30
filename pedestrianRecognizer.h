@@ -9,7 +9,7 @@
 #include <fstream>
 
 #define INF DBL_MAX
-#define EPS 1e-6
+#define EPS 1e-9
 
 using namespace cv;
 

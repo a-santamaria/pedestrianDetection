@@ -47,12 +47,12 @@ void PedestrianDetector::detect(std::string _modelFileName)
                 Rect roi(i, j, 64, 128);
                 Mat window = temp(roi);
                 double prob = pr.pedestrianProbability(window);
-                if(temp.cols < 240) {
-                    namedWindow( "Display window1", WINDOW_AUTOSIZE );
-                    imshow( "Display window1", window );
-                    waitKey(0);
-                    std::cout << "prob " << prob << std::endl;
-                }
+                // if(temp.cols < 240) {
+                //     namedWindow( "Display window1", WINDOW_AUTOSIZE );
+                //     imshow( "Display window1", window );
+                //     waitKey(0);
+                //     std::cout << "prob " << prob << std::endl;
+                // }
 
                 if(prob >= threshold) {
                     // namedWindow( "Display window1", WINDOW_AUTOSIZE );
