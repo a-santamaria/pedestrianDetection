@@ -9,8 +9,9 @@
 #include "pedestrianRecognizer.h"
 #include "mlpack/core.hpp"
 #include "mlpack/methods/logistic_regression/logistic_regression.hpp"
-// #include "/home/alfredo/Documents/mlpack-2.0.1/build/include/mlpack/core.hpp"
-// #include "/home/alfredo/Documents/mlpack-2.0.1/build/include/mlpack/methods/logistic_regression/logistic_regression.hpp"
+#include "mlpack/methods/logistic_regression/logistic_regression_function.hpp"
+#include "mlpack/core/optimizers/sgd/sgd.hpp"
+
 using namespace cv;
 using namespace mlpack;
 using namespace mlpack::regression;
@@ -38,13 +39,38 @@ int main(int argc, char** argv ) {
         return 1;
     }
     std::cout << "leí " << images.size() << " imagenes" << std::endl;
-    PedestrianRecognizer model(modelFile);
-    model.train(images, labels);
 
-    // arma::mat x;
-    // arma::Row<size_t> y;
-    LogisticRegression<> model2(0,0);
+    //TODO revisar que si sea en este orden
+    arma::mat regressors(DescriptorLBPH::desSize, images.size());
+    arma::Row<size_t> responses(DescriptorLBPH::desSize);
 
+    std::vector<DescriptorLBPH> descriptors;
+    for (int i = 0; i < images.size(); i++) {
+        DescriptorLBPH dlbp = DescriptorLBPH(images[i]);
+        for(int j = 0; j < DescriptorLBPH::desSize; j++) {
+            //TODO revisar que si sea en este orden
+            regressors(j, i) = dlbp.descriptor[j];
+            //std::cout << "regresor ("<<j<<","<<i<<") "<< regressors(j, i) << " ";
+        }
+
+        responses(i) = labels[i];
+        //std::cout << std::endl << " lable: " << responses(i) << std::endl;
+    }
+
+
+    LogisticRegression<> model(0,0);
+    model.Parameters() = arma::zeros<arma::vec>(regressors.n_rows);
+
+    LogisticRegressionFunction<> lrf(regressors, responses, model.Parameters());
+    SGD<LogisticRegressionFunction<>> sgdOpt(lrf);
+    //TODO set these
+    // sgdOpt.MaxIterations() = 30;
+    // sgdOpt.Tolerance() = 0.3;
+    // sgdOpt.StepSize() = 10;
+
+    model.Train(sgdOpt);
+    std::string outputModelFile = "outputModelFile.txt";
+    data::Save(outputModelFile, "logReg_model", model, false);
     return 0;
 }
 

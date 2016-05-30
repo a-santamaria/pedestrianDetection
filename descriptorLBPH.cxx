@@ -15,6 +15,7 @@ uchar DescriptorLBPH::uniform[256] = {
     55,56,57
 };
 
+int DescriptorLBPH::desSize = 6196;
 
 DescriptorLBPH::DescriptorLBPH() {}
 

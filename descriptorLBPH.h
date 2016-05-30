@@ -16,10 +16,8 @@ private:
     * image desciptor: normalized histograms concatenated values between 0..1
     * 59 posibilities * 105 blocks = 6195 + 1 -> first position = 1
     **/
-    double descriptor [6196];
     // hardcoded 8-neighbour case
     static uchar uniform[256];
-
    // 8-neighbours
    const int xs[8] = { -1,  0,  1, -1, 1, -1, 0, 1 };
    const int ys[8] = { -1, -1, -1,  0, 0,  1, 1, 1 };
@@ -27,6 +25,8 @@ private:
 public:
     //TODO este no se necesita
     Mat_<uchar> imgLBP;
+    static int desSize;
+    double descriptor [6196];
     DescriptorLBPH();
     DescriptorLBPH(const Mat& _img);
     uchar lbp(int x, int y);

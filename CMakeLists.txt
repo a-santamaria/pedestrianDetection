@@ -11,13 +11,16 @@ find_package( OpenCV REQUIRED )
 # find_package( Boost REQUIRED )
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
-find_package( MLPACK REQUIRED)
+find_package( MLPACK REQUIRED )
 include_directories(${MLPACK_INCLUDE_DIRS})
 set(LIBS ${LIBS} ${MLPACK_LIBRARIES})
 
+find_package( Boost 1.54 COMPONENTS serialization system filesystem regex REQUIRED  )
+include_directories(${Boost_INCLUDE_DIR})
+link_directories(${Boost_LIBRARY_DIRS})
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lmlpack")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lmlpack -lboost_system")
 
 #add_executable( test testClient.cxx descriptorLBPH.cxx
 #                        pedestrianRecognizer.cxx )
@@ -25,7 +28,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lmlpack")
 
 add_executable( train trainingClient.cxx descriptorLBPH.cxx
                         pedestrianRecognizer.cxx )
-target_link_libraries( train ${OpenCV_LIBS} ${LIBS})
+target_link_libraries( train ${OpenCV_LIBS} ${LIBS} ${Boost_LIBRARIES})
 
 # add_executable( testWindow testWindow.cxx descriptorLBPH.cxx
 #                         pedestrianRecognizer.cxx )
