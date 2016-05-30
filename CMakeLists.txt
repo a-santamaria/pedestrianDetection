@@ -19,6 +19,8 @@ find_package( Boost 1.54 COMPONENTS serialization system filesystem regex REQUIR
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
+find_package(Armadillo 2.4.2 REQUIRED)
+
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -lmlpack -lboost_system")
 
@@ -30,9 +32,9 @@ add_executable( train trainingClient.cxx descriptorLBPH.cxx
                         pedestrianRecognizer.cxx )
 target_link_libraries( train ${OpenCV_LIBS} ${LIBS} ${Boost_LIBRARIES})
 
-# add_executable( testWindow testWindow.cxx descriptorLBPH.cxx
-#                         pedestrianRecognizer.cxx )
-# target_link_libraries( testWindow ${OpenCV_LIBS} )
+add_executable( testWindow testWindow.cxx descriptorLBPH.cxx
+                        pedestrianRecognizer.cxx )
+target_link_libraries( testWindow ${OpenCV_LIBS} ${LIBS} ${Boost_LIBRARIES} ${ARMADILLO_LIBRARIES})
 #
 # add_executable( testImage testImage.cxx pedestrianDetector.cxx
 #                     descriptorLBPH.cxx pedestrianRecognizer.cxx )
