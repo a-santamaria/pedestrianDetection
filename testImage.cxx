@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "PedestrianDetector.h"
+#include "pedestrianDetector.h"
 
 using namespace cv;
 

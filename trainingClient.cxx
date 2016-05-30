@@ -7,8 +7,14 @@
 
 #include "descriptorLBPH.h"
 #include "pedestrianRecognizer.h"
-
+#include "mlpack/core.hpp"
+#include "mlpack/methods/logistic_regression/logistic_regression.hpp"
+// #include "/home/alfredo/Documents/mlpack-2.0.1/build/include/mlpack/core.hpp"
+// #include "/home/alfredo/Documents/mlpack-2.0.1/build/include/mlpack/methods/logistic_regression/logistic_regression.hpp"
 using namespace cv;
+using namespace mlpack;
+using namespace mlpack::regression;
+using namespace mlpack::optimization;
 
 static void read_csv(const std::string& filename, std::vector<Mat>& images,
                             std::vector<int>& labels);
@@ -35,6 +41,10 @@ int main(int argc, char** argv ) {
     PedestrianRecognizer model(modelFile);
     model.train(images, labels);
 
+    // arma::mat x;
+    // arma::Row<size_t> y;
+    LogisticRegression<> model2(0,0);
+
     return 0;
 }
 
@@ -43,7 +53,7 @@ static void read_csv(const std::string& filename, std::vector<Mat>& images,
     char separator = ';';
     std::ifstream file(filename.c_str(), std::ifstream::in);
     if (!file) {
-        std::cerr <<  "No valid input file" << std::endl;
+        std::cerr <<  "No vad input file" << std::endl;
     }
     std::string line, path, classlabel;
     while (getline(file, line)) {
