@@ -29,7 +29,8 @@ private:
     std::vector< std::pair<Point2d, Point2d> > boxes;
 public:
     PedestrianDetector();
-    PedestrianDetector(const Mat& _img, std::string _modelFileName);
+    PedestrianDetector(const Mat& _img, std::string _modelFileName,
+                        double _threshold);
     std::vector< std::pair<Point2d, Point2d> > getBoxes();
 
 private:

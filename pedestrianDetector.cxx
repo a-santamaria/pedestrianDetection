@@ -21,7 +21,9 @@ bool PreDeteccion::operator<(const PreDeteccion& other) const
 PedestrianDetector::PedestrianDetector() {}
 
 PedestrianDetector::PedestrianDetector(const Mat& _img,
-                                std::string _modelFileName) : img(_img)
+                                std::string _modelFileName,
+                                    double _threshold) :
+                                    img(_img), threshold(_threshold)
 {
     detect(_modelFileName);
 }
@@ -67,7 +69,7 @@ void PedestrianDetector::detect(std::string _modelFileName)
                     predictors(j, 0) = dlbp.descriptor[j];
                 }
                 arma::Row<size_t> responses;
-                model.Predict(predictors, responses, 0.995);
+                model.Predict(predictors, responses, threshold);
                 //std::cout << "predictions " << responses << std::endl;
                 if(responses(0) == 1) {
                     boxes.push_back( std::make_pair(
