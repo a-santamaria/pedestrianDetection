@@ -1,6 +1,13 @@
 #include "pedestrianDetector.h"
 #include "pedestrianRecognizer.h"
 
+#include "mlpack/core.hpp"
+#include "mlpack/methods/logistic_regression/logistic_regression.hpp"
+
+using namespace cv;
+using namespace mlpack;
+using namespace mlpack::regression;
+
 PreDeteccion::PreDeteccion() {}
 
 PreDeteccion::PreDeteccion(double _prob, Point2d _p, Point2d _q) :
@@ -23,7 +30,14 @@ void PedestrianDetector::detect(std::string _modelFileName)
 {
     Mat_<uchar> dst;
 
-    PedestrianRecognizer pr(_modelFileName);
+    //PedestrianRecognizer pr(_modelFileName);
+    LogisticRegression<> model(0,0);
+    data::Load(_modelFileName, "logReg_model", model);
+
+    arma::mat predictors(DescriptorLBPH::desSize, 1);
+
+
+
     std::cout << "original size " << img.cols << ", " << img.rows << std::endl;
     Mat temp = img;
     //dst = img;
@@ -46,38 +60,53 @@ void PedestrianDetector::detect(std::string _modelFileName)
 
                 Rect roi(i, j, 64, 128);
                 Mat window = temp(roi);
-                double prob = pr.pedestrianProbability(window);
-                // if(temp.cols < 240) {
-                //     namedWindow( "Display window1", WINDOW_AUTOSIZE );
-                //     imshow( "Display window1", window );
-                //     waitKey(0);
-                //     std::cout << "prob " << prob << std::endl;
-                // }
 
-                if(prob >= threshold) {
-                    // namedWindow( "Display window1", WINDOW_AUTOSIZE );
-                    // imshow( "Display window1", window );
-                    // std::cout << "prob " << prob << std::endl;
-                    // waitKey(0);
-                    preDetecciones.push(
-                        PreDeteccion(
-                            prob,
-                            Point2d( i*pyrHeight/lev  , j*pyrHeight/lev       ),
-                            Point2d( (i+64)*pyrHeight/lev, (j+128)*pyrHeight/lev )
-                        )
-                    );
-                    // boxes.push_back(
-                    //     std::make_pair(
-                    //         Point2d( i*pyrHeight/lev  , j*pyrHeight/lev       ),
-                    //         Point2d( (i+64)*pyrHeight/lev, (j+128)*pyrHeight/lev )
-                    //     )
-                    // );
+                DescriptorLBPH dlbp = DescriptorLBPH(window);
+                for(int j = 0; j < DescriptorLBPH::desSize; j++) {
+                    //TODO revisar que si sea en este orden
+                    predictors(j, 0) = dlbp.descriptor[j];
                 }
+                arma::Row<size_t> responses;
+                model.Predict(predictors, responses, 0.995);
+                //std::cout << "predictions " << responses << std::endl;
+                if(responses(0) == 1) {
+                    boxes.push_back( std::make_pair(
+                        Point2d( i*pyrHeight/lev  , j*pyrHeight/lev       ),
+                        Point2d( (i+64)*pyrHeight/lev, (j+128)*pyrHeight/lev ) )
+                    );
+                }
+                // double prob = pr.pedestrianProbability(window);
+                // // if(temp.cols < 240) {
+                // //     namedWindow( "Display window1", WINDOW_AUTOSIZE );
+                // //     imshow( "Display window1", window );
+                // //     waitKey(0);
+                // //     std::cout << "prob " << prob << std::endl;
+                // // }
+                //
+                // if(prob >= threshold) {
+                //     // namedWindow( "Display window1", WINDOW_AUTOSIZE );
+                //     // imshow( "Display window1", window );
+                //     // std::cout << "prob " << prob << std::endl;
+                //     // waitKey(0);
+                //     preDetecciones.push(
+                //         PreDeteccion(
+                //             prob,
+                //             Point2d( i*pyrHeight/lev  , j*pyrHeight/lev       ),
+                //             Point2d( (i+64)*pyrHeight/lev, (j+128)*pyrHeight/lev )
+                //         )
+                //     );
+                //     // boxes.push_back(
+                //     //     std::make_pair(
+                //     //         Point2d( i*pyrHeight/lev  , j*pyrHeight/lev       ),
+                //     //         Point2d( (i+64)*pyrHeight/lev, (j+128)*pyrHeight/lev )
+                //     //     )
+                //     // );
+                // }
             }
         }
 
     }
-    refinarCandidatos(preDetecciones);
+    //refinarCandidatos(preDetecciones);
 }
 
 void

@@ -51,6 +51,8 @@ int main(int argc, char** argv ) {
     double prob = responses(0);
     std::cout << "responses " << responses << std::endl;
     std::cout << "pedestrian probability: " << prob << std::endl;
+    //\std::cout << "acc " << acc << std::endl;
+
     // Create a window for display img.
     namedWindow( "Display window", WINDOW_AUTOSIZE );
     imshow( "Display window", img );

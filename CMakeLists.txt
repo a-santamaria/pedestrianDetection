@@ -34,11 +34,17 @@ target_link_libraries( train ${OpenCV_LIBS} ${LIBS} ${Boost_LIBRARIES})
 
 add_executable( testWindow testWindow.cxx descriptorLBPH.cxx
                         pedestrianRecognizer.cxx )
-target_link_libraries( testWindow ${OpenCV_LIBS} ${LIBS} ${Boost_LIBRARIES} ${ARMADILLO_LIBRARIES})
-#
-# add_executable( testImage testImage.cxx pedestrianDetector.cxx
-#                     descriptorLBPH.cxx pedestrianRecognizer.cxx )
-# target_link_libraries( testImage ${OpenCV_LIBS} )
+target_link_libraries( testWindow ${OpenCV_LIBS}
+                                    ${LIBS}
+                                    ${Boost_LIBRARIES}
+                                    ${ARMADILLO_LIBRARIES})
+
+add_executable( testImage testImage.cxx pedestrianDetector.cxx
+                    descriptorLBPH.cxx pedestrianRecognizer.cxx )
+target_link_libraries( testImage ${OpenCV_LIBS}
+                                    ${LIBS}
+                                    ${Boost_LIBRARIES}
+                                    ${ARMADILLO_LIBRARIES})
 
 
 #add_executable( createNegative createNegativeCannonical.cxx )

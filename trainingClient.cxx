@@ -63,14 +63,15 @@ int main(int argc, char** argv ) {
 
     LogisticRegressionFunction<> lrf(regressors, responses, model.Parameters());
     SGD<LogisticRegressionFunction<>> sgdOpt(lrf);
-    //TODO set these
-    // sgdOpt.MaxIterations() = 30;
-    // sgdOpt.Tolerance() = 0.3;
-    // sgdOpt.StepSize() = 10;
+    sgdOpt.MaxIterations() = DescriptorLBPH::desSize;
+    sgdOpt.Tolerance() = 1e-9;
+    sgdOpt.StepSize() = 0.01;
+    std::cout << "max iterations " << sgdOpt.MaxIterations() << std::endl;
+    std::cout << "Tolerance " << sgdOpt.Tolerance() << std::endl;
+    std::cout << "StepSize " << sgdOpt.StepSize() << std::endl;
 
     model.Train(sgdOpt);
-    std::string outputModelFile = "outputModelFile.txt";
-    data::Save(outputModelFile, "logReg_model", model, false);
+    data::Save(modelFile, "logReg_model", model, false);
     return 0;
 }
 

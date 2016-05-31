@@ -20,7 +20,7 @@ private:
     const int modelSize = 6196;
     double threshold;
     /** gradient descent alpha (lerning ratio) **/
-    double alpha_GD = 1; //TODO cross validation
+    double alpha_GD = 0.01; //TODO cross validation
 
     std::string modelFileName;
 
